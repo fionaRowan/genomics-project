@@ -1,0 +1,16 @@
+Dependencies: 
+
+GATK pipeline: 
+
+picard -- for formatting BAM files (http://broadinstitute.github.io/picard/)
+bwa -- for converting FastQ into BAM files(https://github.com/lh3/bwa)
+GenomeAnalysisTK -- for indel realignment and variant calling (http://broadinstitute.github.io/picard/)
+
+Simulated data pipeline: 
+
+Python of 2.7 or later (https://www.python.org/download/releases/2.7/) 
+SeqGen -- for simulating nucleotide mutations at a location (http://tree.bio.ed.ac.uk/software/seqgen/)
+Art -- for mutated genome to reads (http://www.niehs.nih.gov/research/resources/software/biostatistics/art/)
+Dendropy -- for manipulating genetic phylogenies (http://www.dendropy.org/) 
+SamTools -- creating SAM files (http://www.htslib.org/)
+
