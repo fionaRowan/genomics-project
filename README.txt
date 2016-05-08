@@ -1,0 +1,25 @@
+Phylogenetically aware variant-calling
+By Rayaan Khatau and Fiona Rowan 
+
+Prerequisites: In order for this package to run, you must have all the dependencies, as described in dependencies.txt.
+
+Once you have installed dependencies, in the TreeToReads subdirectory, generate sample mutated genome, where each mutated genome is on a leaf of a genetic phylogeny. Do this by running the following shell command:
+
+python treetoreads.py seqsim.cfg
+
+You may change the specifications of these mutated genomes by edited the seqsim.cfg file, and adding your own genetic phylogeny and reference genome in the directory TreeToReads/example. 
+
+The output includes the mutated genome fasta files (in the TreeToReads/example_out/fasta_files directory), as well as some log files, including var_site_matrix. This file lists all the mutations made by taxa (sample genome), including the position of the gene as well as to what it was mutated into. 
+
+For a more detailed explanation on how the TreeToReads package works, you can read the README of the original package in the TreeToReads directory (we have only modified the original version). 
+
+Once you have the simulated reads, you can run unique_seqs.py to review the mutated genes by taxa and position. You can then run the following shell command to call variants based on the given phylogeny:
+
+python call_variants
+
+
+
+
+Yet to be completed: 
+Support for improving variant calls in real data (although you may pre-process real data using myScript). 
+

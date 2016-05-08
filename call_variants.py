@@ -4,8 +4,6 @@ ref_genome =open('TreeToReads/example/mini_ref.fasta', 'r')
 lines = ref_genome.readlines()
 var_sites_matrix = open('TreeToReads/example_out/var_site_matrix', 'r')
 
-def get_base(sample, location):
-
     #expect (number between 1 & |sample| or name ) and (number in mutations locations list)
 def get_base(sample, location):
 	base = ''
