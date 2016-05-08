@@ -13,6 +13,8 @@ The output includes the mutated genome fasta files (in the TreeToReads/example_o
 
 For a more detailed explanation on how the TreeToReads package works, you can read the README of the original package in the TreeToReads directory (we have only modified the original version). 
 
+The user may also call variants on raw READ data in FastQ file format using our script raw_reads_preprocessing. The files and directories in that script correspond to example files we have provided, and you only need to change those directories to correspond to the paths of your input reference genome, reads, and supplementary files of known indels and known sites in order to process your own data. 
+
 Once you have the simulated reads, you can run unique_seqs.py to review the mutated genes by taxa and position. You can then run the following shell command to call variants based on the given phylogeny:
 
 python call_variants
