@@ -1,0 +1,24 @@
+Sequence Generator - seq-gen
+Version 1.3.2x
+(c) Copyright, 1996-2004 Andrew Rambaut and Nick Grassly
+Department of Zoology, University of Oxford
+South Parks Road, Oxford OX1 3PS, U.K.
+
+Random number generator seed: 6450481811554641515
+
+Simulations of 24 taxa, 7815 nucleotides
+  for 1 tree(s) with 1 dataset(s) per tree
+
+Branch lengths assumed to be number of substitutions per site
+
+Continuous gamma rate heterogeneity:
+    shape = 5.000000
+Model = GTR: General time reversible (nucleotides)
+  Rate of transitions and transversions equal:
+  rate matrix = gamma1: 1.0000 alpha1: 1.0000  beta1: 1.0000
+                                beta2: 1.0000 alpha2: 1.0000
+                                              gamma2:  1.0000
+  with nucleotide frequencies specified as:
+  A=0.78 C=0.08 G=0.07 T=0.07
+
+Time taken: 0.03329 seconds

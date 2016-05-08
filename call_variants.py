@@ -1,8 +1,8 @@
 from collections import defaultdict
 
-ref_genome =open('mini_ref.fasta', 'r')
+ref_genome =open('TreeToReads/example/mini_ref.fasta', 'r')
 lines = ref_genome.readlines()
-var_sites_matrix = open('var_site_matrix', 'r')
+var_sites_matrix = open('TreeToReads/example_out/var_site_matrix', 'r')
 
 def get_base(sample, location):
 
