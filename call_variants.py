@@ -127,7 +127,9 @@ def call_variant(ref_base, sample_doubt, sample_list, mutation_doubt, mutation_l
 
 def get_r_square (snp1, snp2):
 
-    #TODO r_sq implementation 
+    #TODO r_sq implementation
+    #Functionality yet to be implemented
+    #we suggest R's Linkage Disequilibrium package as a way of getting LD values 
     #given snp1 and snp2 are headed by the mutation location they represent followed by  binary strings of length no. of samples. Each position i is 1 or 0 depending on whether the i th sample has a variant or non variant allele at the mutation location. For eg, if samples 1, 3, 5, and 8 have non ref allele and 2,4,6,7 do not at location 789 then the snp will look like a list [789,1,0,1,0,1,0,0,1]
     #returns an LD value between 0 and 1
 

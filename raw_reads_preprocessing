@@ -3,44 +3,46 @@
 # Fiona and Rayaan
 
 # prerequisites for running this script: 
-#
-#
-#
-#
+# Picard package
+# GATK package
+# optional: BWA and SamTools packages (if going from FastQ) 
+# --> must uncomment lines 11-15
 
 echo "*******Begin data preprocessing for Genomics project"
 echo "*******FastQ --> BAM"
-
+#./bwa index human_reference.fasta
+#./bwa mem human_reference.fasta read1.fq read2.fq > aln-pe.sam
+# samtools view -bS aln-pe.sam > exampleBAM.bam
 
 echo "*******format BAM (mark duplicates, sort by position)"
 #Picard processing
 #ordering bam
-java -jar picard.jar SortSam I=exampleBAM.bam O=sorted.bam SO=coordinate
+java -jar picard.jar SortSam I=example_real_data/exampleBAM.bam O=example_real_data/sorted.bam SO=coordinate
 #mark duplicates
-java -jar picard.jar MarkDuplicates I=sorted.bam O=nodups.bam M=metrics.txt
+java -jar picard.jar MarkDuplicates I=example_real_data/sorted.bam O=example_real_data/nodups.bam M=example_real_data/metrics.txt
 #add RG
-java -jar picard.jar AddOrReplaceReadGroups I=nodups.bam O=final.bam RGID=id RGLB=solexa-123 RGPL=illumina RGPU=AXL2342 RGSM=NA12878 RGCN=bi RGDT=2016-04-10
+java -jar picard.jar AddOrReplaceReadGroups I=example_real_data/nodups.bam O=example_real_data/final.bam RGID=id RGLB=solexa-123 RGPL=illumina RGPU=AXL2342 RGSM=NA12878 RGCN=bi RGDT=2016-04-10
 #index bam
-java -jar picard.jar BuildBamIndex I=final.bam
+java -jar picard.jar BuildBamIndex I=example_real_data/final.bam
 
 
 echo "*******indel realignment"
 #create target intervals list 
-java -jar GenomeAnalysisTK.jar -T RealignerTargetCreator -R human_reference.fasta -L 10:96000000-97000000 -known known_indels.vcf -I final.bam -o realignertargetcreator.intervals
+java -jar GenomeAnalysisTK.jar -T RealignerTargetCreator -R example_real_data/human_reference.fasta -L 10:96000000-97000000 -known example_real_data/known_indels.vcf -I example_real_data/final.bam -o example_real_data/realignertargetcreator.intervals
 #make file readable on IGV
-awk -F '[:-]' 'BEGIN {OFS="\t"} {if($3=="") {print $1, $2-1, $2} else {print $1, $2-1, $3}}' realignertargetcreator.intervals > realignertargetcreator.bed 
+awk -F '[:-]' 'BEGIN {OFS="\t"} {if($3=="") {print $1, $2-1, $2} else {print $1, $2-1, $3}}' example_real_data/realignertargetcreator.intervals > example_real_data/realignertargetcreator.bed 
 #realign reads
-java -Xmx8G -Djava.io.tmpdir=/tmp -jar GenomeAnalysisTK.jar -T IndelRealigner -R human_reference.fasta -targetIntervals realignertargetcreator.intervals -known known_indels.vcf -I final.bam -o indelrealigner.bam 
+java -Xmx8G -Djava.io.tmpdir=/tmp -jar GenomeAnalysisTK.jar -T IndelRealigner -R example_real_data/human_reference.fasta -targetIntervals example_real_data/realignertargetcreator.intervals -known example_real_data/known_indels.vcf -I example_real_data/final.bam -o example_real_data/indelrealigner.bam 
 
  
 echo "*******BQSR -- base quality score recalibration" 
 #analyze patterns of covariation in the sequence dataset 
-java -jar GenomeAnalysisTK.jar -T BaseRecalibrator -R human_reference.fasta -I indelrealigner.bam -L 20 -knownSites dbsnp.vcf -knownSites gold_indels.vcf -o recal_data.table
+java -jar GenomeAnalysisTK.jar -T BaseRecalibrator -R example_real_data/human_reference.fasta -I example_real_data/indelrealigner.bam -L 20 -knownSites example_real_data/known_indels.vcf -o example_real_data/recal_data.table
 #second pass to analyze covariation remaining after recalibration
-java -jar GenomeAnalysisTK.jar -T BaseRecalibrator -R human_reference.fasta -I indelrealigner.bam -L 20 -knownSites dbsnp.vcf -knownSites gold_indels.vcf -o recal_data.table
+java -jar GenomeAnalysisTK.jar -T BaseRecalibrator -R example_real_data/human_reference.fasta -I example_real_data/indelrealigner.bam -L 20 -knownSites example_real_data/known_indels.vcf -o example_real_data/recal_data.table
 #apply recalibration to sequence data
-java -jar GenomeAnalysisTK.jar -T PrintReads -R human_reference.fasta -I indelrealigner.bam -L 20 -BQSR recal_data.table -o recal_reads.bam 
+java -jar GenomeAnalysisTK.jar -T PrintReads -R example_real_data/human_reference.fasta -I example_real_data/indelrealigner.bam -L 20 -BQSR example_real_data/recal_data.table -o example_real_data/recal_reads.bam 
 
 echo "*******call variants" 
 #call variants in sequence data
-java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R human_reference.fasta -I recal_reads.bam -L 20 --genotyping_mode DISCOVERY -stand_emit_conf 10 -stand_call_conf 30 -o raw_variants.vcf
+java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R example_real_data/human_reference.fasta -I example_real_data/recal_reads.bam -L 20 --genotyping_mode DISCOVERY -stand_emit_conf 10 -stand_call_conf 30 -o example_real_data/raw_variants.vcf

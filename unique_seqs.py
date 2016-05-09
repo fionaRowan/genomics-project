@@ -1,3 +1,6 @@
+#This file can be run in order for an idea of whether the mutated genomes conform to 
+#the bi-allelic, infinite site mutation assumptions of the model
+
 file = open('TreeToReads/example_out/var_site_matrix', 'r')
 sample_dict = {}
 for line in file:
