@@ -21,13 +21,8 @@ Once you have the simulated reads, you can run unique_seqs.py to review the muta
 
 python unique_seqs.py
 
-You can then run the following shell command to call variants based on the given phylogeny:
+Although this file is currently not functional, once it is fully implemented and has no support for .vcf files that are outputted by the GATK pipeline, you can then run the following shell command to call variants based on the given phylogeny:
 
 python call_variants
 
-
-
-
-Yet to be completed: 
-Support for improving variant calls in real data (although you may pre-process real data using myScript). 
-
+If the application can successfully call variants of the generated mutated genome, then it will print and log its success. Modifications and further implementation is welcomed by the user. Check back frequently for updates. 
